@@ -1,1 +1,49 @@
 
+Описание
+
+Ваша задача - извлечь пароль пользователя Tilen2000.
+
+Формат флага
+
+Флагом является grodno{password_plain_text}.
+
+Дано
+
+Даны два файла: ntds.dit и SYSTEM. Файл ntds.dit - это основной файл базы данных в Microsoft Active Directory Domain Services (AD DS).
+
+Шаги
+
+Извлекаем файлы из архива Tilen.rar:
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+unrar x Tilen.rar
+Используем модуль DSInternals в PowerShell, чтобы извлечь хеши паролей из файла ntds.dit:
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+Get-ADDBAccount -All -DatabasePath 'C:\Documents4\CyberSec\JuniorCryptCTF\ntds.dit' -BootKey (Get-BootKey -SystemHivePath 'C:\Documents4\CyberSec\JuniorCryptCTF\SYSTEM') | more
+Ищем хеш пароля пользователя Tilen2000 в выводе команды:
+
+Verify
+
+Open In Editor
+Edit
+Copy code
+DistinguishedName: CN=Tilen2000,CN=Users,DC=contoso,DC=com
+...
+NTHash: <hash_value>
+Взламываем хеш NTLM с помощью инструмента для взлома паролей, например, Hashcat.
+Флаг
+
+Флагом является grodno{Hello123}.
+
+Вывод
+
+В этом задании мы использовали модуль DSInternals в PowerShell, чтобы извлечь хеши паролей из файла ntds.dit. Затем мы нашли хеш пароля пользователя Tilen2000 и взломали его с помощью инструмента для взлома паролей.
